@@ -16,19 +16,25 @@
 
 package com.rationaldevelopers.examples.endpoints;
 
-import com.rationaldevelopers.examples.model.User;
-import com.rationaldevelopers.examples.service.CotacaoService;
-import org.eclipse.microprofile.jwt.JsonWebToken;
+import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.security.Principal;
-import java.util.List;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
+import com.rationaldevelopers.examples.model.Cotacao;
+import com.rationaldevelopers.examples.service.CotacaoService;
 
 @Path("/cotacao")
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,9 +55,7 @@ public class CotacaoEndPoint {
   @GET
   @Path("/{date}")
   public Response get(@Context SecurityContext ctx, final @PathParam("date") String date) {
-    final Principal caller =  ctx.getUserPrincipal();
-    final String name = caller == null ? "anonymous" : caller.getName();
     final List<Cotacao> cotacoes = cotacaoService.listByDate(date);
-    return Response.ok(users.toArray()).build();
+    return Response.ok(cotacoes.toArray()).build();
   }
 }

@@ -17,8 +17,9 @@
 package com.rationaldevelopers.examples.concurrent;
 
 
-import com.rationaldevelopers.examples.model.User;
+import com.rationaldevelopers.examples.model.Cotacao;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,10 +28,10 @@ import java.util.WeakHashMap;
 public class ManagedThreadLocal {
     private static ThreadLocal<Map<String, Object>> CONTEXT = ThreadLocal.withInitial(WeakHashMap::new);
     private static final String KEY_ID = "___ID_@RD__";
-    private static final String KEY_USER = "___@RD_USER__";
+    private static final String KEY_COTACAO = "___@RD_Cotacao__";
 
-    public ManagedThreadLocal(final Optional<User> currentUser) {
-        setCurrentUser(currentUser);
+    public ManagedThreadLocal(final List<Cotacao> optional) {
+        setCurrentCotacao(optional);
     }
 
     public static String getTraceId() {
@@ -40,13 +41,12 @@ public class ManagedThreadLocal {
         return (String) ManagedThreadLocal.CONTEXT.get().get(KEY_ID);
     }
 
-    public static Optional<User> getCurrentUser() {
-        return Optional.ofNullable((User)ManagedThreadLocal.CONTEXT.get().get(KEY_USER));
+    public static Optional<Cotacao> getCurrentCotacao() {
+        return Optional.ofNullable((Cotacao)ManagedThreadLocal.CONTEXT.get().get(KEY_COTACAO));
     }
 
-    public static void setCurrentUser(final Optional<User> currentUser) {
-        currentUser.ifPresent(p ->
-            ManagedThreadLocal.CONTEXT.get().put(KEY_USER, p));
+    public static void setCurrentCotacao(final List<Cotacao> existing) {
+        //existing.ifPresent(p -> ManagedThreadLocal.CONTEXT.get().put(KEY_COTACAO, p));
     }
 
     public static void clear() {

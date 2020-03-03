@@ -16,24 +16,40 @@
 
 package com.rationaldevelopers.examples.service;
 
-import com.rationaldevelopers.examples.model.Cotacao;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+
+import com.rationaldevelopers.examples.model.Cotacao;
 
 @Named("cotacaoService")
 @Singleton
 public class CotacaoService {
-  @Inject
-  DataService dataService;
+	@Inject
+	DataService dataService;
 
-  @Transactional
-  public List<Cotacao> listByDate(final String date) {
-    return dataService.findByNamedQueryWithParams(Cotacao.class, Cotacao.QRY_FIND_BY_DATE date);
-  }
+	@Transactional
+	public List<Cotacao> listByDate(final String date) {
+		List<Cotacao> cotacoes = dataService.findByNamedQueryWithParams(Cotacao.class, Cotacao.QRY_FIND_BY_DATE, date);
+		
+		if (cotacoes.isEmpty()) {
+			Client client = ClientBuilder.newClient();
+			WebTarget target = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='".concat(date).concat("'&$top=100&$format=json"));
+			Cotacao cotacao = target.request(MediaType.APPLICATION_JSON).get(Cotacao.class);
+			dataService.save(cotacao);
+		}
+		
+		return dataService.findByNamedQueryWithParams(Cotacao.class, Cotacao.QRY_FIND_BY_DATE, date);
+	}
+
+	public void save(Cotacao cotacao) {
+		dataService.save(cotacao);
+	}
 }

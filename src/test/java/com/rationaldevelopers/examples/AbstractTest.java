@@ -16,32 +16,30 @@
 
 package com.rationaldevelopers.examples;
 
-import com.rationaldevelopers.examples.concurrent.ManagedThreadLocal;
-import com.rationaldevelopers.examples.model.Cotacao;
-import com.rationaldevelopers.examples.service.CotacaoService;
-import io.quarkus.test.junit.QuarkusTest;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.inject.Inject;
-import javax.persistence.EntityTransaction;
-import java.util.Optional;
+import com.rationaldevelopers.examples.concurrent.ManagedThreadLocal;
+import com.rationaldevelopers.examples.model.Cotacao;
+import com.rationaldevelopers.examples.service.CotacaoService;
+
+import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class AbstractTest {
   @Inject
   private CotacaoService cotacaoService;
 
-  private EntityTransaction transaction = null;
-
   @BeforeEach
   public void before() throws Exception {
     List<Cotacao> existing = cotacaoService.listByDate("2020-03-03");
-    if (!existing.size() <= 0) {
+    if (existing.isEmpty()) {
       Cotacao newCotacao = new Cotacao();
       cotacaoService.save(newCotacao);
-      new ManagedThreadLocal(Optional.of(newCotacao));
-    } else {
       new ManagedThreadLocal(existing);
     }
   }

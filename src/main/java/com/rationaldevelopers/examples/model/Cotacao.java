@@ -16,28 +16,38 @@
 
 package com.rationaldevelopers.examples.model;
 
-import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.hibernate.annotations.Type;
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.Objects;
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Objects;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @XmlRootElement(name = "cotacao")
 @RegisterForReflection
 @Entity
 @Table(name="cotacao")
 @NamedQueries({
-    @NamedQuery(name = User.QRY_FIND_BY_DATE, query = "select u from Cotacao u where u.dataCotacao=?1"),
+    @NamedQuery(name = Cotacao.QRY_FIND_BY_DATE, query = "select u from Cotacao u where u.dataCotacao=?1"),
 })
 public class Cotacao extends Persistent {
-  private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Cotacao.class);
+  
+  public static final String QRY_FIND_BY_DATE = "Cotacao.findByDate";
 
   @JsonbProperty("id")
   @Id
