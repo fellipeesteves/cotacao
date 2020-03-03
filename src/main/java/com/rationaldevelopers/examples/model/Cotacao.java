@@ -32,59 +32,98 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @XmlRootElement(name = "cotacao")
 @RegisterForReflection
 @Entity
-@Table(name="cotacao")
+@Table(name = "cotacao")
 @NamedQueries({
-    @NamedQuery(name = Cotacao.QRY_FIND_BY_DATE, query = "select u from Cotacao u where u.dataCotacao=?1"),
-})
+		@NamedQuery(name = Cotacao.QRY_FIND_BY_DATE, query = "select u from Cotacao u where u.dataCotacao=?1"), })
 public class Cotacao extends Persistent {
-  private static final Logger LOGGER = LoggerFactory.getLogger(Cotacao.class);
-  
-  public static final String QRY_FIND_BY_DATE = "Cotacao.findByDate";
 
-  @JsonbProperty("id")
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cotacao_generator")
-  @SequenceGenerator(name="cotacao_generator", allocationSize=50, sequenceName = "seq_cotacao", initialValue = 100)
-  @Column(name = "id", updatable = false, nullable = false)
-  private Long id;
+	private static final long serialVersionUID = 1L;
+	
+	public static final String QRY_FIND_BY_DATE = "Cotacao.findByDate";
 
-  @JsonbProperty("dataCotacao")
-  @Column(name = "dataCotacao")
-  private Date dataCotacao;
+	@JsonbProperty("id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cotacao_generator")
+	@SequenceGenerator(name = "cotacao_generator", allocationSize = 50, sequenceName = "seq_cotacao", initialValue = 100)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id;
 
-  @JsonbProperty("dataRegistro")
-  @Column(name = "dataRegistro")
-  private Date dataRegistro;
+	@JsonbProperty("dataCotacao")
+	@Column(name = "dataCotacao")
+	private Date dataCotacao;
 
-  @JsonbProperty("valorCompra")
-  @Column(name = "valorCompra")
-  private BigInteger valorCompra;
+	@JsonbProperty("dataRegistro")
+	@Column(name = "dataRegistro")
+	private Date dataRegistro;
 
-  @JsonbProperty("valorVenda")
-  @Column(name="valorVenda")
-  private BigInteger valorVenda;
+	@JsonbProperty("valorCompra")
+	@Column(name = "valorCompra")
+	private BigInteger valorCompra;
 
-  public Cotacao() {
-  }
+	@JsonbProperty("valorVenda")
+	@Column(name = "valorVenda")
+	private BigInteger valorVenda;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Cotacao cotacao = (Cotacao) o;
-    return Objects.equals(dataCotacao, cotacao.dataCotacao);
-  }
+	public Cotacao() {
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getDataCotacao() {
+		return dataCotacao;
+	}
+
+	public void setDataCotacao(Date dataCotacao) {
+		this.dataCotacao = dataCotacao;
+	}
+
+	public Date getDataRegistro() {
+		return dataRegistro;
+	}
+
+	public void setDataRegistro(Date dataRegistro) {
+		this.dataRegistro = dataRegistro;
+	}
+
+	public BigInteger getValorCompra() {
+		return valorCompra;
+	}
+
+	public void setValorCompra(BigInteger valorCompra) {
+		this.valorCompra = valorCompra;
+	}
+
+	public BigInteger getValorVenda() {
+		return valorVenda;
+	}
+
+	public void setValorVenda(BigInteger valorVenda) {
+		this.valorVenda = valorVenda;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Cotacao cotacao = (Cotacao) o;
+		return Objects.equals(dataCotacao, cotacao.dataCotacao);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }
