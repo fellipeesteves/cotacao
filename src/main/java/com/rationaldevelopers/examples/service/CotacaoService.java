@@ -39,12 +39,14 @@ public class CotacaoService {
 	public List<Cotacao> listByDate(final String date) {
 		List<Cotacao> cotacoes = dataService.findByNamedQueryWithParams(Cotacao.class, Cotacao.QRY_FIND_BY_DATE, date);
 		
-		if (cotacoes.isEmpty()) {
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='".concat(date).concat("'&$top=100&$format=json"));
-			Cotacao cotacao = target.request(MediaType.APPLICATION_JSON).get(Cotacao.class);
-			dataService.save(cotacao);
+		if (!cotacoes.isEmpty()) {
+			return cotacoes;
 		}
+		
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='".concat(date).concat("'&$top=100&$format=json"));
+		Cotacao cotacao = target.request(MediaType.APPLICATION_JSON).get(Cotacao.class);
+		dataService.save(cotacao);
 		
 		return dataService.findByNamedQueryWithParams(Cotacao.class, Cotacao.QRY_FIND_BY_DATE, date);
 	}
