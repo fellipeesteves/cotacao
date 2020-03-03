@@ -1,6 +1,6 @@
 # HU1 - Buscar cotação do dolar comercial por data
 
-Como sistema deve ser implementado um client para consumir um serviço de cotações (https://dadosabertos.bcb.gov.br/dataset/dolar-americano-usd-todos-os-boletins-diarios) buscando por data a cotação e armazenar o retorno em um banco de dados.
+Como sistema deve ser implementado um client para consumir um serviço de cotações (https://dadosabertos.bcb.gov.br/dataset/dolar-americano-usd-todos-os-boletins-diarios) buscando por data a cotação e armazenar o retorno em um banco de dados postgree.
 
 A **Cotação** é composta das seguintes informações:
 
