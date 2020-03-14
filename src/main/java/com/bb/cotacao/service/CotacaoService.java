@@ -35,8 +35,6 @@ public class CotacaoService {
 	
 			String dateFilter = new SimpleDateFormat("MM-dd-yyyy").format(date);
 			
-			System.out.println(dateFilter);
-			
 			Client client = ClientBuilder.newClient();
 			WebTarget target = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='" + dateFilter + "'&$top=100&$format=json");
 			CotacaoData cotacao = target.request(MediaType.APPLICATION_JSON).get(CotacaoData.class);
