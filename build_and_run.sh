@@ -16,4 +16,4 @@ echo "Building application"
 mvn clean package -Pnative
 
 echo: "Starting application"
-./target/quarkus-example-1.0.0-SNAPSHOT-runner
+./target/cotacao-1.0.0-SNAPSHOT-runner

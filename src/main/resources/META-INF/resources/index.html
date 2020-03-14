@@ -1,27 +1,30 @@
-<!--
-  ~ Copyright 2019 Ryan McGuinness
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 
+<!DOCTYPE html>
 <html>
-<head>
-    <title>API - Index</title>
-</head>
-<body>
-<ul>
-    <li><a href="api.html">API Overview</a></li>
-</ul>
-</body>
-</html>
+  <head>
+    <title>Cotação</title>
+    <!-- Adaptive Design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+  
+    <!-- Share -->
+    <meta property="og:url" content="https://localhost:8080/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Docs" />
+    <meta property="og:description" content="API: BB Cotações" />
+    <meta property="og:image" content="https://www49.bb.com.br/pagar-receber/assets/img/logo.png" />
 
+    <!-- Styles -->
+    <style>
+      body { margin: 0; padding: 0; }
+      .collapser { display: none !important; } 
+      .ellipsis { display: none !important; } 
+      .collapsible { display: block !important; }
+    </style>
+  </head>
+  <body>
+    <redoc spec-url='http://localhost:8080/swagger.json'></redoc>
+    <script src="https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js"> </script>
+  </body>
+</html>

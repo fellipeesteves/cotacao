@@ -1,25 +1,10 @@
-/*
- * Copyright 2019 Ryan McGuinness
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.bb.cotacao.model;
 
-package com.rationaldevelopers.examples.model;
-
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,20 +15,25 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
-@XmlRootElement(name = "cotacao")
+@JsonRootName("cotacao")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @RegisterForReflection
 @Entity
 @Table(name = "cotacao")
 @NamedQueries({
-		@NamedQuery(name = Cotacao.QRY_FIND_BY_DATE, query = "select u from Cotacao u where u.dataCotacao=?1"), })
+		@NamedQuery(name = Cotacao.QRY_FIND_BY_DATE, query = "select c from Cotacao c where DATE(c.dataCotacao) = DATE(?1)") })
 public class Cotacao extends Persistent {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String QRY_FIND_BY_DATE = "Cotacao.findByDate";
 
 	@JsonbProperty("id")
@@ -54,21 +44,20 @@ public class Cotacao extends Persistent {
 	private Long id;
 
 	@JsonbProperty("dataCotacao")
+	@JsonbDateFormat(DATE_FORMAT)
 	@Column(name = "dataCotacao")
 	private Date dataCotacao;
 
-	@JsonbProperty("dataRegistro")
-	@Column(name = "dataRegistro")
-	private Date dataRegistro;
-
 	@JsonbProperty("valorCompra")
-	@Column(name = "valorCompra")
-	private BigInteger valorCompra;
+	@Column(name = "valorCompra", precision = 5, scale = 4)
+	@Type(type = "big_decimal")
+	private BigDecimal valorCompra;
 
 	@JsonbProperty("valorVenda")
-	@Column(name = "valorVenda")
-	private BigInteger valorVenda;
-
+	@Column(name = "valorVenda", precision = 5, scale = 4)
+	@Type(type = "big_decimal")
+	private BigDecimal valorVenda;
+	
 	public Cotacao() {
 	}
 
@@ -88,30 +77,22 @@ public class Cotacao extends Persistent {
 		this.dataCotacao = dataCotacao;
 	}
 
-	public Date getDataRegistro() {
-		return dataRegistro;
-	}
-
-	public void setDataRegistro(Date dataRegistro) {
-		this.dataRegistro = dataRegistro;
-	}
-
-	public BigInteger getValorCompra() {
+	public BigDecimal getValorCompra() {
 		return valorCompra;
 	}
 
-	public void setValorCompra(BigInteger valorCompra) {
+	public void setValorCompra(BigDecimal valorCompra) {
 		this.valorCompra = valorCompra;
 	}
 
-	public BigInteger getValorVenda() {
+	public BigDecimal getValorVenda() {
 		return valorVenda;
 	}
 
-	public void setValorVenda(BigInteger valorVenda) {
+	public void setValorVenda(BigDecimal valorVenda) {
 		this.valorVenda = valorVenda;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

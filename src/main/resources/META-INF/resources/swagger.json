@@ -1,0 +1,148 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Cotação atualizada.",
+    "version": "0.0.1",
+    "title": "Cotação API",
+    "termsOfService": "http://localhost:8080/",
+    "contact": {
+      "email": "hello@localhost:8080",
+      "url": "http://localhost:8080/"
+    },
+    "x-logo": {
+      "url": "https://www49.bb.com.br/pagar-receber/assets/img/logo.png",
+      "altText": "Cotação"
+    },
+    "license": {
+      "name": "Privacy Policy",
+      "url": "http://localhost:8080/"
+    }
+  },
+  "x-servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Default server"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Sandbox server"
+    }
+  ],
+  "host": "localhost:8080",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "cotacao",
+      "description": "Serviço de cotação"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/cotacao/{date}": {
+      "get": {
+        "tags": [
+          "cotacao"
+        ],
+        "summary": "Consultar por data",
+        "description": "Neste serviço é possivel consultar cotação atualizada por data (dd-mm-yyyy)",
+        "operationId": "consultarPorData",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [{
+            "name": "date",
+            "in": "path",
+            "description": "Data da pesquisa no formato DD-MM-YYYY",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cotações da data informada",
+            "schema": {
+              "$ref": "#/definitions/CotacaoResponse"
+            }
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "cURL",
+            "source": ""
+          },
+          {
+            "lang": "Node",
+            "source": "const cotacaoAPI = require('./Cotacao');\n
+
+cotacaoAPI.consultarPorData(\"03-03-2020\", function (result) {\n
+  console.log(\"result: \", result);\n
+});"
+          },
+          {
+            "lang": "PHP",
+            "source": "$cotacaoAPI = new CotacaoAPI(Environment::sandbox());\n
+
+$cotacaoResponse = $cotacaoAPI->consultarPorData(\"03-03-2020\");\n
+
+print_r($cotacaoResponse);"
+          },
+          {
+            "lang": "Java",
+            "source": "CotacaoAPI cotacaoApi = new CotacaoAPI(CotacaoAPI.Environment.SANDBOX);\n
+
+cotacaoApi.start(new ConsultarPorData.Builder()\n
+.withDate(\"03-03-2020\")\n
+.build());"
+          },
+          {
+            "lang": "C#",
+            "source": "CotacaoAPI Cotacao = new CotacaoAPI(EnviromentType.SandBox);\n
+
+var CotacaoResponse = Cotacao.consultarPorData(\"03-03-2020\");\n
+
+Console.WriteLine(\"CotacaoResponse: \" + JsonConvert.SerializeObject(CotacaoResponse))"
+          }
+        ]
+      }
+    }  
+  },
+  "definitions": {
+    "Cotacao": {
+      "description": "Cotação",
+      "type": "object",
+      "example": {
+        "id": 1,
+        "dataAtualizacao": "2020-03-14T03:42:15.166Z",
+        "dataRegistro": "2020-03-14T03:42:15.166Z",
+        "dataCotacao": "2020-03-03T13:06:38.000Z",
+        "valorCompra": 4.48770,
+        "valorVenda": 4.48830,
+        "version": 0
+      },
+      "properties": {}
+    },
+    "CotacaoResponse": {
+      "description": "Lista de cotações",
+      "type": "object",
+      "example": [{
+      	"id": 1,
+        "dataAtualizacao": "2020-03-14T03:42:15.166Z",
+        "dataRegistro": "2020-03-14T03:42:15.166Z",
+        "dataCotacao": "2020-03-03T13:06:38.000Z",
+        "valorCompra": 4.48770,
+        "valorVenda": 4.48830,
+        "version": 0
+      }],
+      "properties": {}
+    }
+  },
+  "externalDocs": {
+    "description": "Duvidas?",
+    "url": "http://localhost:8080/"
+  }
+}

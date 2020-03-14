@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   open-trace:
-    container_name: example_cdi_trace
+    container_name: cotacao-trace
     image: jaegertracing/all-in-one:latest
     environment:
       COLLECTOR_ZIPKIN_HTTP_PORT: 9411
@@ -15,15 +15,15 @@ services:
       - 14268:14268
       - 9411:9411
   db:
-    container_name: example_cdi_db
+    container_name: cotacao-database
     image: postgres
     restart: 'no'
     volumes:
       - example_db:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: 'example'
-      POSTGRES_PASSWORD: 'eX4mpl3!'
-      POSTGRES_DB: 'example'
+      POSTGRES_USER: 'cotacao'
+      POSTGRES_PASSWORD: '123456!'
+      POSTGRES_DB: 'cotacao'
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
